@@ -1,5 +1,4 @@
 version: 2.1
-
 orbs:
   node: circleci/node@5.1.0
 
@@ -20,7 +19,7 @@ jobs:
 workflows:
   build_test_deploy:
     jobs:
-     - build_and_test
-     filters:
-       branches:
-         only: main
+      - build_and_test
+      filters:
+        branches:
+          only: main
