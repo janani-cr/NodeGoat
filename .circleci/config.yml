@@ -22,4 +22,4 @@ workflows:
           pkg-manager: npm
       - shiftleft/analyze:
         app: NodeGoatJS
-        js: .
+        language: js
