@@ -9,13 +9,7 @@ jobs:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-        -run:
-          command: npm run build
-          name: Build app
-        -persist_to_workspace:
-          root: ~/project
-          paths:
-            - .
+        -run: npm install
 workflows:
   build_test_deploy:
     jobs:
