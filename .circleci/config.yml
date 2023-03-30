@@ -7,8 +7,8 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+        #      - node/install-packages:
+        # pkg-manager: npm
         -run: npm install
 workflows:
   build_test_deploy:
