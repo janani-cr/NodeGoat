@@ -14,8 +14,8 @@ jobs:
     steps:
       - run: 
           command: |
-            sudo curl https://cdn.shiftleft.io/download/sl > /usr/local/bin/sl #download Qwiet
-            echo 'sudo ls -l /usr/local/bin/sl'
+            curl https://cdn.shiftleft.io/download/sl #download Qwiet
+            echo 'ls -ltr'
             #            sudo /usr/local/bin/sl analyze --wait --app NodeGoatJS --js
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
