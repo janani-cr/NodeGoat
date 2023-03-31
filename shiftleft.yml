@@ -9,6 +9,6 @@ build_rules:
     cvss_31_severity_ratings:
       #- high
       - critical
-    threshold: 1
+    threshold: 0
     options:
       num_findings: 10
