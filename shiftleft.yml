@@ -1,5 +1,6 @@
 source:
-  branch: main
+  scan: previous
+  #  branch: main
 build_rules:
   - id: "Allow zero high SAST vulnerabilities"
     finding_types:
