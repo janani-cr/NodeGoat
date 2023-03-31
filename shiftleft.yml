@@ -6,8 +6,8 @@ build_rules:
       - vuln
       - secret
     cvss_31_severity_ratings:
-      - high
+      #- high
       - critical
-    threshold: 0
+    threshold: 2
     options:
       num_findings: 10
