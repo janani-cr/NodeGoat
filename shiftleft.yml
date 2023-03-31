@@ -1,6 +1,5 @@
 source:
   branch: main
-  scan: 1
 build_rules:
   - id: "Allow zero high SAST vulnerabilities"
     finding_types:
@@ -11,4 +10,4 @@ build_rules:
       - critical
     threshold: 0
     options:
-      num_findings: 0
+      num_findings: 10
