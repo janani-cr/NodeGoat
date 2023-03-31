@@ -18,7 +18,7 @@ jobs:
             curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl #download Qwiet
             ./sl auth --diagnostic --token "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcGl2NCIsImlhdCI6MTY4MDIzMDA0MCwiaXNzIjoiU2hpZnRMZWZ0Iiwib3JnSUQiOiIxYjRlZDRlMi03MWUwLTRiNmMtYjRlNy00OGE0YzQ4YWFiMTEiLCJ0b2tlbklEIjoiNTAzYTQ4ZjctMGFlZS00OGUzLWJlODYtZjlkNTdkYmQyMTJkIiwic2NvcGVzIjpbImV4dGVuZGVkIl19.U22UBjNpHxdzSVVozv3uUy88sO6zIxUqfD9lSAnYGdMpL2XwiYnODFxYAakNgPEvIB16sBUy_uxVodTVBwIy-WYcJT4c2PpylP7bkszNvoubPrXVjmJqmcDPTFIbZo3vHCKzwUhT12N-ASP-VmGnhttm_IgJ1rSwtjVmt_oIvD6KNyliBksx4FHF7Gk9AEXkmIRY-sguGuL6IDljBtV9LHHVkW5aETDK3m_ffvBUZYvZI0_tK7yhRuXyXhjSzAQp_wWjy8Ve8O9oDdWWcgxflqhW2lzB-4DWcALVRaaQnnrCg8__a3MKqdCnNxjITux2keBLDKXluQLFG5oWfyQBGw"
             ./sl analyze --wait --app NodeGoatJS --js
-            #            ./sl check-analysis --v2 --app NodeGoatJS 
+            ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml --target tag.branch=master
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.

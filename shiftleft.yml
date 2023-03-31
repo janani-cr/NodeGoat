@@ -1,0 +1,14 @@
+source:
+  branch: main
+  scan: 1
+  build_rules:
+    - id: "Allow zero high SAST vulnerabilities"
+      finding_types:
+        - vuln
+        - secret
+      cvss_31_severity_ratings:
+        - high
+        - critical
+      threshold: 0
+      options:
+        num_findings: 0
