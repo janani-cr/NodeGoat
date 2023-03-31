@@ -29,3 +29,8 @@ test/e2e/videos/
 
 # ignore Snyk Code scanner files
 .dccache
+
+#vscode files
+.vscode/*
+
+sl*
