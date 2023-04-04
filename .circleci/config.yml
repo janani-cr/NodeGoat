@@ -18,7 +18,34 @@ jobs:
             curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl #download Qwiet
             ./sl auth --diagnostic --token "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcGl2NCIsImlhdCI6MTY4MDIzMDA0MCwiaXNzIjoiU2hpZnRMZWZ0Iiwib3JnSUQiOiIxYjRlZDRlMi03MWUwLTRiNmMtYjRlNy00OGE0YzQ4YWFiMTEiLCJ0b2tlbklEIjoiNTAzYTQ4ZjctMGFlZS00OGUzLWJlODYtZjlkNTdkYmQyMTJkIiwic2NvcGVzIjpbImV4dGVuZGVkIl19.U22UBjNpHxdzSVVozv3uUy88sO6zIxUqfD9lSAnYGdMpL2XwiYnODFxYAakNgPEvIB16sBUy_uxVodTVBwIy-WYcJT4c2PpylP7bkszNvoubPrXVjmJqmcDPTFIbZo3vHCKzwUhT12N-ASP-VmGnhttm_IgJ1rSwtjVmt_oIvD6KNyliBksx4FHF7Gk9AEXkmIRY-sguGuL6IDljBtV9LHHVkW5aETDK3m_ffvBUZYvZI0_tK7yhRuXyXhjSzAQp_wWjy8Ve8O9oDdWWcgxflqhW2lzB-4DWcALVRaaQnnrCg8__a3MKqdCnNxjITux2keBLDKXluQLFG5oWfyQBGw"
             ./sl analyze --wait --app NodeGoatJS --js
-            ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml --github-pr-user $CIRCLE_PROJECT_USERNAME --github_token $GITHUB_TOKEN
+            ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml
+      - run:
+          name: Assert build quality against security standards
+          command: |
+            BUILD_RESULT=$(curl -X GET "https://www.shiftleft.io/api/v3/public/org/$SHIFTLEFT_ORG_ID/app/$APP_NAME/tag/branch/$CIRCLE_BRANCH/build" -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" -H 'Accept: */*' -H 'Cache-Control: no-cache' -H 'Connection: keep-alive' -H 'Host: www.shiftleft.io' -H 'accept-encoding: text/plain, deflate' -H 'cookie: Cookie_3=value' -s -b Cookie_3=value)
+            if [ $(echo $BUILD_RESULT | grep "success") ]; then
+                PR_COMMENT="ShiftLeft did not detect any vulnerabilities that violate policy. This PR can be merged."
+            else
+                URL="https://shiftleft.io/"
+                URL+=$(echo $BUILD_RESULT | jq -r '.errorDetails')
+                PR_COMMENT="ShiftLeft found vulnerabilities that violate policy. Go here for more details - $URL"
+            fi
+            if [ ! -z "$CIRCLE_PULL_REQUEST" ]; then
+                PR_USER=$(echo $CIRCLE_PULL_REQUEST | cut -d '/' -f4)
+                PR_REPO=$(echo $CIRCLE_PULL_REQUEST | cut -d '/' -f5)
+                PR_NUMBER=$(echo $CIRCLE_PULL_REQUEST | cut -d '/' -f7)
+               curl -H "Authorization: token $GH_AUTH_TOKEN" -X POST -d "{\"body\": \"$PR_COMMENT\"}" https://api.github.com/repos/$PR_USER/$PR_REPO/issues/$PR_NUMBER/comments
+                if [ ! $(echo $BUILD_RESULT | grep "success") ]; then
+                   echo "Failing the build since PR violates security policy"
+                   exit 1
+                fi
+            else
+                echo "No PR information. Was this a commit/merge to the master branch?"
+                if [ ! $(echo $BUILD_RESULT | grep "success") ]; then
+                    echo "Failing the build since commit/merge violates security policy"
+                    exit 1
+                fi
+            fi
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
