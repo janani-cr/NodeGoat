@@ -1,5 +1,5 @@
 source:
-  scan: 10
+  scan: previous
   #  branch: main
 build_rules:
   - id: "Allow zero high SAST vulnerabilities"
