@@ -41,7 +41,7 @@ jobs:
           command: |
             ./sl check-analysis --v2 --app NodeGoatJS \
               --report \
-              --github-api-base-url https://api.github.com/repos/ \
+              --github-api-base-url https://api.github.com/ \
               --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
               --github-pr-number 4 \
