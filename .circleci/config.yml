@@ -35,6 +35,7 @@ jobs:
             echo ${CIRCLE_PROJECT_REPONAME}
             echo ${CIRCLE_PR_NUMBER}
             echo ${CIRCLE_PROJECT_USERNAME}
+            echo ${GITHUB_ACCESS_TOKEN}
       - run:
           name: Validate build rules
           command: |
