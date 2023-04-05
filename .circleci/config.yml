@@ -39,4 +39,6 @@ workflows:
             version: '16.10'
             pkg-manager: npm
         - sl_scan:
-            context: Qwiet-github-workflow      
+            context:
+              - org-global
+              - Qwiet-github-workflow      
