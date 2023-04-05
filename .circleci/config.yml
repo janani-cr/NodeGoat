@@ -38,4 +38,5 @@ workflows:
         - node/test:
             version: '16.10'
             pkg-manager: npm
-        - sl_scan
+        - sl_scan:
+            context: Qwiet-github-workflow      
