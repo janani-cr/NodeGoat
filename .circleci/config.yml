@@ -35,7 +35,7 @@ jobs:
             echo ${CIRCLE_PROJECT_REPONAME}
             echo ${CIRCLE_PR_NUMBER}
             echo ${CIRCLE_PROJECT_USERNAME}
-            echo ${GITHUB_ACCESS_TOKEN}
+            echo ${GITHUB_TOKEN}
       - run:
           name: Validate build rules
           command: |
@@ -45,7 +45,7 @@ jobs:
               --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
               --github-pr-number 4 \
-              --github-token ${GITHUB_ACCESS_TOKEN}
+              --github-token ${GITHUB_TOKEN}
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
