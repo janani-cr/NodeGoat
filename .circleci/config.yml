@@ -31,7 +31,7 @@ jobs:
                 CIRCLE_PR_NUMBER="$(basename "$CI_PULL_REQUEST")"
                 CIRCLE_PR_NUMBER= "$CIRCLE_PR_NUMBER + 0" 
             fi
-            echo "$CIRCLE_PR_NUMBER"
+            echo "CIRCLE_PR_NUMBER=$(($CIRCLE_PR_NUMBER+0)) "
             echo ${CIRCLE_BRANCH}
             echo ${CIRCLE_PROJECT_REPONAME}
             echo ${CIRCLE_PR_NUMBER}
