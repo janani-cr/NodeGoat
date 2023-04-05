@@ -40,6 +40,7 @@ jobs:
           command: |
             ./sl check-analysis --v2 --app NodeGoatJS \
               --report \
+              --github-api-base-url https://api.github.com/repos \
               --github_pr_number ${CIRCLE_PR_NUMBER} \
               --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
