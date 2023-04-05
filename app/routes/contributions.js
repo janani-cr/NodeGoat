@@ -36,6 +36,7 @@ function ContributionsHandler(db) {
         
         
         //Fix for A1 -1 SSJS Injection attacks - uses alternate method to eval
+        
         /*
         const preTax = parseInt(req.body.preTax);
         const afterTax = parseInt(req.body.afterTax);

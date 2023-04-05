@@ -6,6 +6,22 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
 
+commands:
+  validate:
+    parameters:
+      pr_num: 
+        type: integer
+        default: 0
+    steps:
+      - run:
+        command: |
+          ./sl check-analysis --v2 --app NodeGoatJS \
+            --report \
+            --github-api-base-url https://api.github.com/ \
+            --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
+            --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
+            --github-pr-number <<parameters.pr_num>> \
+            --github-token ${GITHUB_TOKEN}
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 jobs:
@@ -13,12 +29,38 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - run: 
+      - run:
           command: |
             curl https://cdn.shiftleft.io/download/sl > ./sl && chmod a+rx ./sl #download Qwiet
             ./sl auth --diagnostic --token "eyJhbGciOiJSUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcGl2NCIsImlhdCI6MTY4MDIzMDA0MCwiaXNzIjoiU2hpZnRMZWZ0Iiwib3JnSUQiOiIxYjRlZDRlMi03MWUwLTRiNmMtYjRlNy00OGE0YzQ4YWFiMTEiLCJ0b2tlbklEIjoiNTAzYTQ4ZjctMGFlZS00OGUzLWJlODYtZjlkNTdkYmQyMTJkIiwic2NvcGVzIjpbImV4dGVuZGVkIl19.U22UBjNpHxdzSVVozv3uUy88sO6zIxUqfD9lSAnYGdMpL2XwiYnODFxYAakNgPEvIB16sBUy_uxVodTVBwIy-WYcJT4c2PpylP7bkszNvoubPrXVjmJqmcDPTFIbZo3vHCKzwUhT12N-ASP-VmGnhttm_IgJ1rSwtjVmt_oIvD6KNyliBksx4FHF7Gk9AEXkmIRY-sguGuL6IDljBtV9LHHVkW5aETDK3m_ffvBUZYvZI0_tK7yhRuXyXhjSzAQp_wWjy8Ve8O9oDdWWcgxflqhW2lzB-4DWcALVRaaQnnrCg8__a3MKqdCnNxjITux2keBLDKXluQLFG5oWfyQBGw"
             ./sl analyze --wait --app NodeGoatJS --js
-            ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml --target tag.branch=master
+            ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml
+      - run: # print the name of the branch we're on
+          name: "What branch am I on?"
+          command: |
+            if [[ -z "$CIRCLE_PR_NUMBER" ]]; then
+                if [[ -z "$CI_PULL_REQUEST" ]]; then
+                    URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls?head=$CIRCLE_PROJECT_USERNAME:$CIRCLE_BRANCH"
+                    RESULT="`curl -X GET -u $GITHUB_ACCESS_TOKEN:x-oauth-basic $URL | jq ".[0].url"`"
+                    [[ "$RESULT" == 'null' ]] && CI_PULL_REQUEST='' || CI_PULL_REQUEST="${RESULT//\"}"
+                fi
+                CIRCLE_PR_NUMBER="$(basename "$CI_PULL_REQUEST")"
+            fi
+            echo ${CIRCLE_BRANCH}
+            echo ${CIRCLE_PROJECT_REPONAME}
+            echo ${CIRCLE_PR_NUMBER}
+            echo ${CIRCLE_PROJECT_USERNAME}
+            echo ${GITHUB_TOKEN}
+      - run:
+          name: "Validate build rules"
+          command: |
+            ./sl check-analysis --v2 --app NodeGoatJS \
+              --report \
+              --github-api-base-url https://api.github.com/ \
+              --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
+              --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
+              --github-pr-number 4 \
+              --github-token ${GITHUB_TOKEN}
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
