@@ -41,9 +41,9 @@ jobs:
             ./sl check-analysis --v2 --app NodeGoatJS \
               --report \
               --github-api-base-url https://api.github.com/repos \
-              --github_pr_number ${CIRCLE_PR_NUMBER} \
               --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
+              --github-pr-number ${CIRCLE_PR_NUMBER} \
               --github-token ${GITHUB_ACCESS_TOKEN}}
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
