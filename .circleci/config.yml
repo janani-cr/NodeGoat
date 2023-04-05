@@ -41,6 +41,7 @@ jobs:
             echo ${CIRCLE_PROJECT_USERNAME}
             echo ${GITHUB_TOKEN}
           pr_num: $CIRCLE_PR_NUMBER
+      - run : echo "<<parameters.pr_num>>"  
       - run:
           name: Validate build rules
           command: |
