@@ -33,7 +33,6 @@ jobs:
                     [[ "$RESULT" == 'null' ]] && CI_PULL_REQUEST='' || CI_PULL_REQUEST="${RESULT//\"}"
                 fi
                 CIRCLE_PR_NUMBER="$(basename "$CI_PULL_REQUEST")"
-                parameters.pr_num = $CIRCLE_PR_NUMBER
             fi
             echo "CIRCLE_PR_NUMBER=$(($CIRCLE_PR_NUMBER+0)) "
             echo ${CIRCLE_BRANCH}
@@ -41,6 +40,7 @@ jobs:
             echo $(($CIRCLE_PR_NUMBER))
             echo ${CIRCLE_PROJECT_USERNAME}
             echo ${GITHUB_TOKEN}
+          pr_num: $CIRCLE_PR_NUMBER
       - run:
           name: Validate build rules
           command: |
@@ -49,7 +49,7 @@ jobs:
               --github-api-base-url https://api.github.com/ \
               --github-pr-user ${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo ${CIRCLE_PROJECT_REPONAME} \
-              --github-pr-number {{parameters.pr_num}} \
+              --github-pr-number <<parameters.pr_num>> \
               --github-token ${GITHUB_TOKEN}
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
