@@ -21,7 +21,11 @@ jobs:
             ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml
       - run: # print the name of the branch we're on
           name: "What branch am I on?"
-          command: echo ${CIRCLE_BRANCH}
+          command: |
+            echo ${CIRCLE_BRANCH}
+            echo ${CIRCLE_PR_REPONAME}
+            echo ${CIRCLE_PR_NUMBER}
+            echo ${CIRCLE_PR_USERNAME}
       - run:
           name: Validate build rules
           command: |
