@@ -6,9 +6,11 @@ build_rules:
     finding_types:
       - vuln
       - secret
+      - oss_vuln
     cvss_31_severity_ratings:
       #- high
-      - critical
-    threshold: 0
+      #- critical
+      #threshold: 0
     options:
+      reachable: true
       num_findings: 10
