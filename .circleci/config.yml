@@ -22,6 +22,15 @@ jobs:
       - run: # print the name of the branch we're on
           name: "What branch am I on?"
           command: |
+            if [[ -z "$CIRCLE_PR_NUMBER" ]]; then
+                if [[ -z "$CI_PULL_REQUEST" ]]; then
+                    URL="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/pulls?head=$CIRCLE_PROJECT_USERNAME:$CIRCLE_BRANCH"
+                    RESULT="`curl -X GET -u $GITHUB_ACCESS_TOKEN:x-oauth-basic $URL | jq ".[0].url"`"
+                    [[ "$RESULT" == 'null' ]] && CI_PULL_REQUEST='' || CI_PULL_REQUEST="${RESULT//\"}"
+                fi
+                CIRCLE_PR_NUMBER="$(basename "$CI_PULL_REQUEST")"
+            fi
+            echo "$CIRCLE_PR_NUMBER"
             echo ${CIRCLE_BRANCH}
             echo ${CIRCLE_PR_REPONAME}
             echo ${CIRCLE_PR_NUMBER}
