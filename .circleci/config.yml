@@ -24,10 +24,10 @@ jobs:
           command: |
             ./sl check-analysis --v2 --app NodeGoatJS \
               --report \
-              --github_pr_number=$CIRCLE_PR_NUMBER \
-              --github-pr-user=$CIRCLE_PR_USERNAME \
-              --github-pr-repo=$CIRCLE_PR_REPONAME \
-              --github-token=$GITHUB_TOKEN
+              --github_pr_number=${CIRCLE_PR_NUMBER} \
+              --github-pr-user=${CIRCLE_PR_USERNAME} \
+              --github-pr-repo=${CIRCLE_PR_REPONAME} \
+              --github-token=${GITHUB_TOKEN}
 workflows:
   build_and_scan_and_test: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
