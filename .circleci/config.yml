@@ -22,7 +22,9 @@ jobs:
       - run:
          name: Print env variables
            #         command: echo ${CIRCLE_PR_REPONAME}      
-         command: echo 'export BS_BUILD="Build No. $CIRCLE_BUILD_NUM for CircleCI"' >> $BASH_ENV
+         command: |
+           echo 'export BS_BUILD="Build No. $CIRCLE_BUILD_NUM for CircleCI"' >> $BASH_ENV
+           echo $BS_BUILD
       - run:
           name: Validate build rules
           command: |
