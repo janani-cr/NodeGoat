@@ -40,7 +40,7 @@ jobs:
           command: |
             ./sl check-analysis --v2 --app NodeGoatJS \
               --report \
-              --github_pr_number=$CIRCLE_PR_NUMBER \
+              --github_pr_number=${CIRCLE_PR_NUMBER} \
               --github-pr-user=${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo=${CIRCLE_PROJECT_REPONAME} \
               --github-token=${GITHUB_ACCESS_TOKEN}}
