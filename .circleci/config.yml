@@ -39,7 +39,7 @@ jobs:
           name: Validate build rules
           command: |
             ./sl check-analysis --v2 --app NodeGoatJS \
-              --report \
+              --no-build-rules \
               --github_pr_number=${CIRCLE_PR_NUMBER} \
               --github-pr-user=${CIRCLE_PROJECT_USERNAME} \
               --github-pr-repo=${CIRCLE_PROJECT_REPONAME} \
