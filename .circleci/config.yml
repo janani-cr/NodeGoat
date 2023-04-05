@@ -21,7 +21,8 @@ jobs:
             ./sl check-analysis --v2 --app NodeGoatJS --config ./shiftleft.yml
       - run:
          name: Print env variables
-         command: echo ${CIRCLE_PR_REPONAME}      
+           #         command: echo ${CIRCLE_PR_REPONAME}      
+         command: echo 'export BS_BUILD="Build No. $CIRCLE_BUILD_NUM for CircleCI"' >> $BASH_ENV
       - run:
           name: Validate build rules
           command: |
@@ -38,7 +39,4 @@ workflows:
         - node/test:
             version: '16.10'
             pkg-manager: npm
-        - sl_scan:
-            context:
-              - org-global
-              - Qwiet-github-workflow      
+        - sl_scan
