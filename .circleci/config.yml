@@ -49,7 +49,7 @@ jobs:
             CIRCLE_PR_NUMBER=expr($CIRCLE_PR_NUMBER+0)
             echo ${CIRCLE_BRANCH}
             echo ${CIRCLE_PROJECT_REPONAME}
-            echo $CIRCLE_PR_NUMBER
+            echo ${CIRCLE_PR_NUMBER}
             echo ${CIRCLE_PROJECT_USERNAME}
             echo ${GITHUB_TOKEN}
             command: |
